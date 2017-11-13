@@ -1,3 +1,3 @@
-# discobot
+# discobot 
 
-A description of this package.
+2GIS Discounts Bot Prototype.
