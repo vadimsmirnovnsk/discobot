@@ -4,17 +4,20 @@ import TelegramBot
 public class DiscoBot {
 
 	private static let kMaxCaptionLength = 200
-	private static let kMaxDiscoPostCount = 1
 
-	private let discoStorage = PostedDiscoStorage()
+	private let discoStorage = PostedDiscoStorage(test: false)
 
-	public func postNewDisco(message: Message, testChannel: Bool) {
+	public func postNewDisco(message: Message, itemsCount: Int, testChannel: Bool) {
 		self.getDisco() { [weak self] discoResponse in
 			guard let this = self else { return }
 
 			if let discoResponse = discoResponse {
+				let discos = this.discosForPost(from: discoResponse.result.items, itemsCount: itemsCount)
+				guard discos.count > 0 else {
+					this.printInfo(message: message, info: "There is no one new disco.")
+					return
+				}
 
-				let discos = this.discosForPost(from: discoResponse.result.items)
 				for disco in discos {
 					let photoUrl = disco.photoUrlString
 					let discoText = disco.messageTruncated(by: DiscoBot.kMaxCaptionLength)
@@ -26,25 +29,25 @@ public class DiscoBot {
 					                  caption: discoText,
 					                  disable_notification: true,
 					                  replyMarkup)
-//					if (testChannel) {
-						this.discoStorage.add(item: disco)
-//					}
+					this.discoStorage.add(item: disco)
 				}
 
 				this.discoStorage.synchronize()
 			} else {
-				self?.processFallback(message: message, errorDescription: "Couldn't obtain new discounts 😔")
+				this.printInfo(message: message, info: "Couldn't obtain new discounts 😔")
 			}
 		}
 	}
 
-	public func clearCache() {
+	public func clearCache(message: Message) {
 		self.discoStorage.dropAllItems()
+
+		self.printInfo(message: message, info: "All items have been droped.")
 	}
 
 	// Echo fallback
-	public func processFallback(message: Message?, errorDescription: String? = nil) {
-		if let message = message, let from = message.from, let text = message.text {
+	public func processFallback(message: Message, errorDescription: String? = nil) {
+		if let from = message.from, let text = message.text {
 			var messageText = "Hi \(from.first_name)! You said: \(text).\nBut I know only command: /post\n"
 			if let errorDescription = errorDescription {
 				messageText = messageText + errorDescription + "\n"
@@ -56,8 +59,16 @@ public class DiscoBot {
 		}
 	}
 
+	public func printInfo(message: Message, info: String) {
+		if let from = message.from {
+			bot.sendMessageAsync(chat_id: from.id,
+			                     text: info,
+			                     parse_mode: "markdown")
+		}
+	}
+
 	private func getDisco(callback: @escaping (DiscoResponse?) -> Void) {
-		let url = URL(string: "https://discounts.api.2gis.ru/2.0/projects/1/discounts?limit=30&page=1")
+		let url = URL(string: "https://discounts.api.2gis.ru/2.0/projects/1/discounts?limit=10&page=1")
 
 		let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
 			if let data = data {
@@ -120,11 +131,11 @@ public class DiscoBot {
 	}
 
 
-	private func discosForPost(from discos: [DiscoItem]) -> [DiscoItem] {
+	private func discosForPost(from discos: [DiscoItem], itemsCount: Int) -> [DiscoItem] {
 		let discosToAdd = discos.filter { !self.discoStorage.contains(item: $0) }
 
-		let maxDiscos = discosToAdd.count > DiscoBot.kMaxDiscoPostCount
-			? DiscoBot.kMaxDiscoPostCount
+		let maxDiscos = discosToAdd.count > itemsCount
+			? itemsCount
 			: discosToAdd.count
 
 		let discosForPost = Array<DiscoItem>(discosToAdd[0..<maxDiscos].reversed())

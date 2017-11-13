@@ -8,17 +8,24 @@ let discoBot = DiscoBot()
 
 router["post", .slashRequired] = { context in
 	if let message = context.message {
+		let argItemCount = context.args.scanInt64()
 		let argument = context.args.scanWord() ?? ""
 		let testChannel = argument != "production"
+		let testItemsCount: Int64 = testChannel ? 1 : 0
+		let itemsCount64 = argItemCount ?? testItemsCount
 
-		discoBot.postNewDisco(message: message, testChannel: testChannel)
+		discoBot.postNewDisco(message: message, itemsCount: Int(itemsCount64),  testChannel: testChannel)
 	}
 
 	return true
 }
 
-router["clear", .slashRequired] = {
-	
+router["clear", .slashRequired] = { context in
+	if let message = context.message {
+		discoBot.clearCache(message: message)
+	}
+
+	return true
 }
 
 while let update = bot.nextUpdateSync() {
