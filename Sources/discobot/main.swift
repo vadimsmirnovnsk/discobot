@@ -8,6 +8,8 @@ let discoBot = DiscoBot()
 
 router["post", .slashRequired] = { context in
 	if let message = context.message {
+		guard let user = message.from, discoBot.isApprovedForChat(userId: user.id) else { return true }
+
 		let argItemCount = context.args.scanInt64()
 		let argument = context.args.scanWord() ?? ""
 		let testChannel = argument != "production"
@@ -22,6 +24,8 @@ router["post", .slashRequired] = { context in
 
 router[["help", "start"], .slashRequired] = { context in
 	if let message = context.message {
+		guard let user = message.from, discoBot.isApprovedForChat(userId: user.id) else { return true }
+
 		let firstName = message.from?.first_name ?? "Неизвестный"
 		let info = "Привет, " + firstName + "\n Используй команды:\n" +
 		"*/clear* — чтобы дропнуть все записи из кеша\n" +
@@ -37,6 +41,8 @@ router[["help", "start"], .slashRequired] = { context in
 
 router["clear", .slashRequired] = { context in
 	if let message = context.message {
+		guard let user = message.from, discoBot.isApprovedForChat(userId: user.id) else { return true }
+		
 		discoBot.clearCache(chatId: message.chat.id)
 	}
 

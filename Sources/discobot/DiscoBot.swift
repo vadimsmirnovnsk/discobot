@@ -139,4 +139,17 @@ public class DiscoBot {
 		let discosForPost = Array<DiscoItem>(discosToAdd[0..<maxDiscos].reversed())
 		return discosForPost
 	}
+
+	public func isApprovedForChat(userId: Int64) -> Bool {
+		guard Config.approvedUserIds.contains(userId) else {
+			let info = "Вы не можете управлять ботом, сорян."
+			bot.sendMessageAsync(chat_id: userId,
+			                     text: info,
+			                     parse_mode: "markdown")
+
+			return false
+		}
+
+		return true
+	}
 }
