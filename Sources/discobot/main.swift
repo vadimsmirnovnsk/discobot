@@ -14,7 +14,22 @@ router["post", .slashRequired] = { context in
 		let testItemsCount: Int64 = testChannel ? 1 : 0
 		let itemsCount64 = argItemCount ?? testItemsCount
 
-		discoBot.postNewDisco(message: message, itemsCount: Int(itemsCount64),  testChannel: testChannel)
+		discoBot.postNewDisco(chatId: message.chat.id, itemsCount: Int(itemsCount64),  testChannel: testChannel)
+	}
+
+	return true
+}
+
+router[["help", "start"], .slashRequired] = { context in
+	if let message = context.message {
+		let firstName = message.from?.first_name ?? "Неизвестный"
+		let info = "Привет, " + firstName + "\n Используй команды:\n" +
+		"*/clear* — чтобы дропнуть все записи из кеша\n" +
+		"*/post <opt int: itemsCount> <opt: `production`>* — чтобы отправить itemsCount новых постов. " +
+		"Если указано слово `production`, то в канальчик."
+		bot.sendMessageAsync(chat_id: message.chat.id,
+		                     text: info,
+		                     parse_mode: "markdown")
 	}
 
 	return true
@@ -22,7 +37,7 @@ router["post", .slashRequired] = { context in
 
 router["clear", .slashRequired] = { context in
 	if let message = context.message {
-		discoBot.clearCache(message: message)
+		discoBot.clearCache(chatId: message.chat.id)
 	}
 
 	return true
