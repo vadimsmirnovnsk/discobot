@@ -32,5 +32,6 @@ struct DiscoItem: Codable {
 	let project_id: Int
 	let order: Int
 	let cover: String
+	let filials: [String]
 
 }

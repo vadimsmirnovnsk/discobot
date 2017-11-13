@@ -27,6 +27,7 @@
 		3060C4EB1FB7896B00FFC4DA /* DiscoCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3060C4EA1FB7896B00FFC4DA /* DiscoCommand.swift */; };
 		3060C4ED1FB791E800FFC4DA /* DiscoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3060C4EC1FB791E800FFC4DA /* DiscoResponse.swift */; };
 		3060C4EF1FB7B59F00FFC4DA /* String+Truncate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3060C4EE1FB7B59F00FFC4DA /* String+Truncate.swift */; };
+		3060CBF91FB9C39100FFC4DA /* DiscoItem+BotMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3060CBF81FB9C39100FFC4DA /* DiscoItem+BotMessage.swift */; };
 		OBJ_173 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_179 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_154 /* Package.swift */; };
 		OBJ_185 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_156 /* Package.swift */; };
@@ -230,6 +231,7 @@
 		3060C4EA1FB7896B00FFC4DA /* DiscoCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoCommand.swift; sourceTree = "<group>"; };
 		3060C4EC1FB791E800FFC4DA /* DiscoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoResponse.swift; sourceTree = "<group>"; };
 		3060C4EE1FB7B59F00FFC4DA /* String+Truncate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Truncate.swift"; sourceTree = "<group>"; };
+		3060CBF81FB9C39100FFC4DA /* DiscoItem+BotMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoItem+BotMessage.swift"; sourceTree = "<group>"; };
 		OBJ_100 /* InlineKeyboardMarkup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineKeyboardMarkup.swift; sourceTree = "<group>"; };
 		OBJ_101 /* InlineQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineQuery.swift; sourceTree = "<group>"; };
 		OBJ_102 /* InlineQueryResultArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineQueryResultArticle.swift; sourceTree = "<group>"; };
@@ -566,7 +568,7 @@
 			path = Methods;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -575,7 +577,6 @@
 				OBJ_11 /* Dependencies */,
 				OBJ_163 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_65 /* Protocols */ = {
@@ -621,6 +622,7 @@
 				3060C4E81FB7860200FFC4DA /* MessageEntity+Commands.swift */,
 				3060C4EA1FB7896B00FFC4DA /* DiscoCommand.swift */,
 				3060C4EC1FB791E800FFC4DA /* DiscoResponse.swift */,
+				3060CBF81FB9C39100FFC4DA /* DiscoItem+BotMessage.swift */,
 			);
 			name = discobot;
 			path = Sources/discobot;
@@ -845,7 +847,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_163 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -903,6 +905,7 @@
 				3060C4EF1FB7B59F00FFC4DA /* String+Truncate.swift in Sources */,
 				3060C4E71FB7848200FFC4DA /* DiscoBot.swift in Sources */,
 				OBJ_197 /* main.swift in Sources */,
+				3060CBF91FB9C39100FFC4DA /* DiscoItem+BotMessage.swift in Sources */,
 				3060C4EB1FB7896B00FFC4DA /* DiscoCommand.swift in Sources */,
 				3060C4E91FB7860200FFC4DA /* MessageEntity+Commands.swift in Sources */,
 				3060C4E41FB77F5800FFC4DA /* Config.swift in Sources */,
