@@ -1,22 +1,24 @@
 import Foundation
 import TelegramBot
+import CoreData
 
 let bot = TelegramBot(token: Config.botToken)
 let router = Router(bot: bot)
 let discoBot = DiscoBot()
 
 router["post", .slashRequired] = { context in
-	let argument = context.args.scanWord() ?? ""
-	let testChannel = argument != "production"
-	discoBot.process(command: context.command, message: context.message, testChannel: testChannel)
+	if let message = context.message {
+		let argument = context.args.scanWord() ?? ""
+		let testChannel = argument != "production"
+
+		discoBot.postNewDisco(message: message, testChannel: testChannel)
+	}
 
 	return true
 }
 
-router[.callback_query(data: "like")] = { context in
-	print(context)
-
-	return true
+router["clear", .slashRequired] = {
+	
 }
 
 while let update = bot.nextUpdateSync() {
