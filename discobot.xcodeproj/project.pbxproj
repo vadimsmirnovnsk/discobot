@@ -425,13 +425,6 @@
 			path = config;
 			sourceTree = SOURCE_ROOT;
 		};
-		3060CBFA1FB9F27700FFC4DA /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CoreData;
-			sourceTree = SOURCE_ROOT;
-		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,7 +592,6 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3060CBFA1FB9F27700FFC4DA /* CoreData */,
 				3060C4E11FB77ED600FFC4DA /* config */,
 				OBJ_8 /* discobot */,
 			);

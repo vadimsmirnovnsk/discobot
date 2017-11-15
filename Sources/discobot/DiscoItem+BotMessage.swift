@@ -29,7 +29,12 @@ extension DiscoItem { // BotMessage
 		let urlPrefix = "↪️ "
 
 		let discoD1 = self.description.replacingOccurrences(of: "\n", with: " ")
-		let discoD2 = discoD1.replacingOccurrences(of: "<br>", with: "")
+		let discoD2 = discoD1
+			.replacingOccurrences(of: "<br>", with: "")
+			.replacingOccurrences(of: "<li>", with: "")
+			.replacingOccurrences(of: "</li>", with: "")
+			.replacingOccurrences(of: "<ul>", with: "")
+			.replacingOccurrences(of: "</ul>", with: "")
 
 		let discoDescriptionCount = symbolsCount - self.saleUrlString.characters.count - menshen.characters.count - urlPrefix.characters.count - self.title.characters.count - 8
 		let discoDescription = discoD2.truncate(length: discoDescriptionCount, trailing: "...")
