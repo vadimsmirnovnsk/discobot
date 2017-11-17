@@ -24,6 +24,15 @@ extension DiscoItem { // BotMessage
 		return nil
 	}
 
+	var fullTitle: String {
+		var fullTitle = self.title
+		if let percent = self.percent {
+			fullTitle = fullTitle + " \(percent)%"
+		}
+
+		return fullTitle
+	}
+
 	func messageTruncated(by symbolsCount: Int) -> String {
 		let menshen = "💫 @gisdisco"
 		let urlPrefix = "↪️ "
@@ -36,10 +45,10 @@ extension DiscoItem { // BotMessage
 			.replacingOccurrences(of: "<ul>", with: "")
 			.replacingOccurrences(of: "</ul>", with: "")
 
-		let discoDescriptionCount = symbolsCount - self.saleUrlString.characters.count - menshen.characters.count - urlPrefix.characters.count - self.title.characters.count - 8
+		let discoDescriptionCount = symbolsCount - self.saleUrlString.characters.count - menshen.characters.count - urlPrefix.characters.count - self.fullTitle.characters.count - 8
 		let discoDescription = discoD2.truncate(length: discoDescriptionCount, trailing: "...")
 
-		let discoText = self.title + "\n" + discoDescription + "\n" + urlPrefix + self.saleUrlString + "\n\n" + menshen
+		let discoText = self.fullTitle + "\n" + discoDescription + "\n" + urlPrefix + self.saleUrlString + "\n\n" + menshen
 
 		return discoText
 	}

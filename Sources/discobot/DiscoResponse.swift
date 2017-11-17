@@ -33,5 +33,6 @@ struct DiscoItem: Codable {
 	let order: Int
 	let cover: String
 	let filials: [String]
+	let percent: Int?
 
 }

@@ -66,7 +66,7 @@ public class DiscoBot {
 	}
 
 	private func getDisco(callback: @escaping (DiscoResponse?) -> Void) {
-		let url = URL(string: "https://discounts.api.2gis.ru/2.0/projects/1/discounts?limit=10&page=1")
+		let url = URL(string: "https://discounts.api.2gis.ru/2.0/projects/1/discounts?limit=20&page=1")
 
 		let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
 			if let data = data {
@@ -136,7 +136,7 @@ public class DiscoBot {
 			? itemsCount
 			: discosToAdd.count
 
-		let discosForPost = Array<DiscoItem>(discosToAdd[0..<maxDiscos].reversed())
+		let discosForPost = Array<DiscoItem>(discosToAdd[0..<maxDiscos])
 		return discosForPost
 	}
 
