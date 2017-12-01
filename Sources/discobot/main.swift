@@ -49,8 +49,13 @@ router["clear", .slashRequired] = { context in
 	return true
 }
 
-while let update = bot.nextUpdateSync() {
-	try router.process(update: update)
+while true {
+    while let update = bot.nextUpdateSync() {
+        try router.process(update: update)
+    }
+    
+    print("Server stopped due to error: \(String(describing: bot.lastError))")
+    sleep(5)
 }
 
 fatalError("Server stopped due to error: \(String(describing: bot.lastError))")
