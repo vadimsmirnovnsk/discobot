@@ -7,6 +7,43 @@ public class DiscoBot {
 
 	private let discoStorage = PostedDiscoStorage(test: false)
 
+	public func postOneDisco(chatId: ChatId,
+							 testChannel: Bool,
+							 title: String,
+							 description: String,
+							 link: String,
+							 photoLink: String,
+							 discoId: String
+	) {
+		self.getDisco(id: discoId) {
+			[weak self] discoResponse in
+			guard let this = self else { return }
+
+			if let discoResponse = discoResponse {
+				let discos = this.discosForPost(from: [discoResponse.result.item], itemsCount: 1)
+				guard let disco = discos.first else {
+					this.printInfo(chatId: chatId, info: "There is no one disco for " + discoId)
+					return
+				}
+
+				let discoText = disco.messageTruncated(by: DiscoBot.kMaxCaptionLength, title: title, descritpion: description, urlString: link)
+				let replyMarkup = DiscoBot.replyMarkup(with: disco)
+
+				let channel: ChatId = testChannel ? chatId : Config.channelPrivateId
+				bot.sendPhotoSync(chat_id: channel,
+								  photo: photoLink,
+								  caption: discoText,
+								  disable_notification: true,
+								  replyMarkup)
+//				this.discoStorage.add(item: disco)
+//
+//				this.discoStorage.synchronize()
+			} else {
+				this.printInfo(chatId: chatId, info: "Couldn't obtain new discounts 😔")
+			}
+		}
+	}
+
 	public func postNewDisco(chatId: ChatId, itemsCount: Int, testChannel: Bool) {
 		self.getDisco() { [weak self] discoResponse in
 			guard let this = self else { return }
@@ -64,6 +101,31 @@ public class DiscoBot {
 							 text: info,
 							 parse_mode: "markdown")
 	}
+
+	private func getDisco(id: String, callback: @escaping (DiscoSingleResponse?) -> Void) {
+		guard let url = URL(string: "https://discounts.api.2gis.ru/2.0/discounts/" + id) else {
+			print("Bad url for id:" + id)
+			return
+		}
+		print("Will fetch discos: " + url.absoluteString)
+
+		let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+			if let data = data {
+				do {
+					let jsonDecoder = JSONDecoder()
+					let discoResponse = try jsonDecoder.decode(DiscoSingleResponse.self, from: data)
+					callback(discoResponse)
+				}
+				catch {
+					print("Error decode disco request: \(error)")
+					callback(nil)
+				}
+			}
+		}
+
+		task.resume()
+	}
+
 
 	private func getDisco(callback: @escaping (DiscoResponse?) -> Void) {
 		let url = URL(string: "https://discounts.api.2gis.ru/2.0/projects/1/discounts?limit=20&page=1")

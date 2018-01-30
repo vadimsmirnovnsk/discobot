@@ -1,5 +1,19 @@
 import Foundation
 
+struct DiscoSingleResponse: Codable {
+
+	let meta: DiscoResponseMeta
+	let result: DiscoSingleResponseResult
+
+}
+
+struct DiscoSingleResponseResult: Codable {
+
+	let total_count: Int
+	let item: DiscoItem
+
+}
+
 struct DiscoResponse: Codable {
 
 	let meta: DiscoResponseMeta

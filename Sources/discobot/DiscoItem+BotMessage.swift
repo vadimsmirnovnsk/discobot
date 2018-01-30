@@ -53,4 +53,24 @@ extension DiscoItem { // BotMessage
 		return discoText
 	}
 
+	func messageTruncated(by symbolsCount: Int, title: String, descritpion: String, urlString: String) -> String {
+		let menshen = "💫 @gisdisco"
+		let urlPrefix = "↪️ "
+
+		let discoD1 = descritpion.replacingOccurrences(of: "\n", with: " ")
+		let discoD2 = discoD1
+			.replacingOccurrences(of: "<br>", with: "")
+			.replacingOccurrences(of: "<li>", with: "")
+			.replacingOccurrences(of: "</li>", with: "")
+			.replacingOccurrences(of: "<ul>", with: "")
+			.replacingOccurrences(of: "</ul>", with: "")
+
+		let discoDescriptionCount = symbolsCount - urlString.characters.count - menshen.characters.count - urlPrefix.characters.count - title.characters.count - 8
+		let discoDescription = discoD2.truncate(length: discoDescriptionCount, trailing: "...")
+
+		let discoText = title + "\n" + discoDescription + "\n" + urlPrefix + urlString + "\n\n" + menshen
+
+		return discoText
+	}
+
 }

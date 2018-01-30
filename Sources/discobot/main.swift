@@ -22,6 +22,44 @@ router["post", .slashRequired] = { context in
 	return true
 }
 
+router["postone", .slashRequired] = { context in
+	if let message = context.message {
+		guard let user = message.from, discoBot.isApprovedForChat(userId: user.id) else { return true }
+
+		if let messageText = message.text {
+			var textLines = messageText.components(separatedBy: "\n")
+			guard textLines.count > 4 else {
+				bot.sendMessageAsync(chat_id: message.chat.id,
+					text: "*Ошибка:* слишком мало строчек. Надо минимум 4 (id, title, ..., link, photoLink)",
+									 parse_mode: "markdown")
+				return true
+			}
+
+			let argument = context.args.scanWord() ?? ""
+			let testChannel = argument != "production"
+
+			textLines.remove(at: 0) // Убираем команду
+			let id = textLines.remove(at: 0)
+			let title = textLines.remove(at: 0)
+			let photoLink = textLines.remove(at: textLines.count - 1)
+			let link = textLines.remove(at: textLines.count - 1)
+			let description = textLines.joined(separator: "\n")
+
+			print("Did parse params: \nid: \(id)\ntitle: \(title)\ndescription: \(description)\nphotoLink: \(photoLink)\nlink: \(link)\nisTest: \(testChannel)")
+
+			discoBot.postOneDisco(chatId: message.chat.id,
+								  testChannel: testChannel,
+								  title: title,
+								  description: description,
+								  link: link,
+								  photoLink: photoLink,
+								  discoId: id)
+		}
+	}
+
+	return true
+}
+
 router[["help", "start"], .slashRequired] = { context in
 	if let message = context.message {
 		guard let user = message.from, discoBot.isApprovedForChat(userId: user.id) else { return true }
