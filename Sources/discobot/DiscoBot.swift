@@ -35,9 +35,6 @@ public class DiscoBot {
 								  caption: discoText,
 								  disable_notification: true,
 								  replyMarkup)
-//				this.discoStorage.add(item: disco)
-//
-//				this.discoStorage.synchronize()
 			} else {
 				this.printInfo(chatId: chatId, info: "Couldn't obtain new discounts 😔")
 			}
