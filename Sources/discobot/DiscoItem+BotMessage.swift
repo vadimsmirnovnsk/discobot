@@ -54,7 +54,7 @@ extension DiscoItem { // BotMessage
 	}
 
 	func messageTruncated(by symbolsCount: Int, title: String, descritpion: String, urlString: String) -> String {
-		let menshen = "💫 @gisdisco"
+		let menshen = "@gisdisco"// 💫
 		let urlPrefix = ""
 
 		let discoD1 = descritpion.replacingOccurrences(of: "\n", with: " ")

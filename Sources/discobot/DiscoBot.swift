@@ -99,9 +99,10 @@ public class DiscoBot {
 							 parse_mode: "markdown")
 	}
 
-	private func getDisco(id: String, callback: @escaping (DiscoSingleResponse?) -> Void) {
+	internal func getDisco(id: String, callback: @escaping (DiscoSingleResponse?) -> Void) {
 		guard let url = URL(string: "https://discounts.api.2gis.ru/2.0/discounts/" + id) else {
 			print("Bad url for id:" + id)
+			callback(nil)
 			return
 		}
 		print("Will fetch discos: " + url.absoluteString)
@@ -117,6 +118,8 @@ public class DiscoBot {
 					print("Error decode disco request: \(error)")
 					callback(nil)
 				}
+			} else {
+				callback(nil)
 			}
 		}
 
@@ -184,7 +187,7 @@ public class DiscoBot {
 
 	internal class func replyMarkup(with item: DiscoItem) -> [String : Any] {
 		let keyboardMarkup = DiscoBot.inlineKeyboard(with: item)
-		return ["reply_markup": keyboardMarkup] // , "disable_notification": true
+		return ["reply_markup": keyboardMarkup, "disable_notification": true]
 	}
 
 

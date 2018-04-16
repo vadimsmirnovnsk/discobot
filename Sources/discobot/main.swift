@@ -5,6 +5,9 @@ import CoreData
 let bot = TelegramBot(token: Config.botToken)
 let router = Router(bot: bot)
 let discoBot = DiscoBot()
+let discoStuff = DiscoStuff(with: discoBot)
+
+//discoStuff.calculateCtr()
 
 router["post", .slashRequired] = { context in
 	if let message = context.message {

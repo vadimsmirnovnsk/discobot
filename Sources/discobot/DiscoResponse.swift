@@ -48,5 +48,12 @@ struct DiscoItem: Codable {
 	let cover: String
 	let filials: [String]
 	let percent: Int?
+	let ctr: DiscoCtr?
+
+}
+
+struct DiscoCtr: Codable {
+
+	let current_value: Double
 
 }
